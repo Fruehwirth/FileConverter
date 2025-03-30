@@ -55,13 +55,33 @@ function handleFormatSelect() {
 
 // File Handler
 function handleFile(file) {
-    if (!file.type.startsWith('image/')) {
-        alert('Please select an image file.');
+    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/bmp', 'image/svg+xml', 'image/x-icon'];
+    if (!validTypes.includes(file.type)) {
+        alert('Please select a valid image file (JPG, PNG, WebP, BMP, SVG, or ICO).');
         return;
     }
 
     currentFile = file;
     previewFile(file);
+    
+    // Get the current file type
+    const currentType = file.type === 'image/svg+xml' ? 'svg' : 
+                       file.type === 'image/x-icon' ? 'ico' : 
+                       file.type.split('/')[1];
+    
+    // Filter out the current file type from options
+    const options = formatSelect.options;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].value === currentType) {
+            options[i].style.display = 'none';
+        } else {
+            options[i].style.display = '';
+        }
+    }
+    
+    // Reset the selection
+    formatSelect.value = '';
+    
     updateConvertButton();
     updateDropZoneUI();
 }
@@ -102,12 +122,41 @@ function handleConversion() {
             ctx.drawImage(img, 0, 0);
 
             // Convert to selected format
-            const mimeType = `image/${formatSelect.value}`;
+            let mimeType;
+            if (formatSelect.value === 'ico') {
+                // For ICO files, we'll create a 32x32 version
+                const icoCanvas = document.createElement('canvas');
+                icoCanvas.width = 32;
+                icoCanvas.height = 32;
+                const icoCtx = icoCanvas.getContext('2d');
+                icoCtx.drawImage(img, 0, 0, 32, 32);
+                canvas = icoCanvas;
+                mimeType = 'image/x-icon';
+            } else if (formatSelect.value === 'svg') {
+                // For SVG conversion, we'll create a simple SVG representation
+                const svgString = `<svg xmlns="http://www.w3.org/2000/svg" width="${img.width}" height="${img.height}">
+                    <image href="${e.target.result}" width="${img.width}" height="${img.height}"/>
+                </svg>`;
+                const blob = new Blob([svgString], { type: 'image/svg+xml' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const originalName = currentFile.name;
+                const newName = originalName.replace(/\.[^/.]+$/, '') + '.svg';
+                a.download = newName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                return;
+            } else {
+                mimeType = `image/${formatSelect.value}`;
+            }
+
             canvas.toBlob((blob) => {
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                // Preserve original filename but change extension
                 const originalName = currentFile.name;
                 const newName = originalName.replace(/\.[^/.]+$/, '') + '.' + formatSelect.value;
                 a.download = newName;

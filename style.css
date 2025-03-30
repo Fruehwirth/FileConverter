@@ -1,4 +1,34 @@
 /* Reset and base styles */
+:root {
+    --bg-primary: #f5f5f5;
+    --bg-secondary: #272727;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-tertiary: #999;
+    --border-color: #ccc;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-bg: #f0f7ff;
+    --button-primary: #3498db;
+    --button-hover: #2980b9;
+    --button-disabled: #bdc3c7;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1a1a1a;
+        --bg-secondary: #2d2d2d;
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --text-tertiary: #808080;
+        --border-color: #404040;
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --hover-bg: #3a3a3a;
+        --button-primary: #2980b9;
+        --button-hover: #3498db;
+        --button-disabled: #404040;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,59 +38,72 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+h1 {
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin: 0;
+    padding-bottom: 1rem;
+    align-self: flex-start;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 3rem;
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.container {
-    max-width: 1200px;
-    width: 90%;
-    padding: 2rem;
-}
-
 .converter-container {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    min-height: 400px;
+    background: var(--bg-secondary);
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    min-height: 500px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 3rem;
 }
 
 .converter-container h1 {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-primary);
     font-size: 2.5rem;
     margin: 0;
+    padding-bottom: 1rem;
 }
 
 .converter-content {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: 3rem;
     flex: 1;
+    padding: 1rem;
 }
 
 /* Drop zone styles */
 .drop-zone {
-    width: 300px;
-    height: 200px;
-    border: 2px dashed #ccc;
-    border-radius: 8px;
+    width: 350px;
+    height: 250px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    background-color: #fafafa;
+    background-color: var(--bg-secondary);
     position: relative;
+    padding: 2rem;
 }
 
 .drop-zone.has-file {
@@ -69,8 +112,6 @@ body {
     overflow: hidden;
     width: auto;
     height: auto;
-    min-width: 300px;
-    min-height: 200px;
 }
 
 .drop-zone.has-file .drop-zone-content {
@@ -80,20 +121,20 @@ body {
 .drop-zone.has-file .file-preview {
     display: block;
     max-width: 500px;
-    max-height: 400px;
+    max-height: 300px;
     width: auto;
     height: auto;
     object-fit: contain;
 }
 
 .drop-zone:hover, .drop-zone.dragover {
-    border-color: #3498db;
-    background-color: #f0f7ff;
+    border-color: var(--button-primary);
+    background-color: var(--hover-bg);
 }
 
 .drop-zone-content {
     text-align: center;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .drop-zone-content img {
@@ -104,7 +145,7 @@ body {
 
 .supported-formats {
     font-size: 0.9rem;
-    color: #999;
+    color: var(--text-tertiary);
     margin-top: 0.5rem;
 }
 
@@ -117,43 +158,44 @@ body {
 
 .arrow {
     font-size: 2rem;
-    color: #3498db;
+    color: var(--button-primary);
 }
 
 /* Conversion options styles */
 .conversion-options {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    min-width: 200px;
+    gap: 1.5rem;
+    min-width: 250px;
+    padding: 1rem;
 }
 
 .format-select {
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
     font-size: 1rem;
-    background-color: white;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     cursor: pointer;
 }
 
 .convert-btn {
-    padding: 0.8rem;
-    background-color: #3498db;
+    padding: 1rem;
+    background-color: var(--button-primary);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
 .convert-btn:hover:not(:disabled) {
-    background-color: #2980b9;
+    background-color: var(--button-hover);
 }
 
 .convert-btn:disabled {
-    background-color: #bdc3c7;
+    background-color: var(--button-disabled);
     cursor: not-allowed;
 }
 
@@ -174,7 +216,6 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 1;
-    transition: background-color 0.3s ease;
 }
 
 .close-button:hover {
@@ -190,16 +231,24 @@ body {
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .converter-content {
-        flex-direction: column;
+    body {
+        padding: 1rem;
     }
 
-    .arrow {
-        transform: rotate(90deg);
+    .container {
+        padding: 1rem;
+    }
+
+    .converter-container {
+        padding: 2rem;
+    }
+
+    .converter-content {
+        gap: 2rem;
     }
 
     .drop-zone {
         width: 100%;
-        max-width: 300px;
+        max-width: 350px;
     }
 } 
