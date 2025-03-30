@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local File Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="converter-container">
+            <h1>Local File Converter</h1>
+            <div class="converter-content">
+                <div class="drop-zone" id="dropZone">
+                    <div class="drop-zone-content">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/%3E%3Cpolyline points='17 8 12 3 7 8'/%3E%3Cline x1='12' y1='3' x2='12' y2='15'/%3E%3C/svg%3E" alt="Upload">
+                        <p>Drag and drop files here</p>
+                        <p class="supported-formats">Supported formats: JPG, PNG, WebP, BMP</p>
+                    </div>
+                    <img class="file-preview" id="filePreview" alt="File preview">
+                    <button class="close-button" id="closeButton" style="display: none;">×</button>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+                <div class="arrow-container">
+                    <div class="arrow">→</div>
+                </div>
+                <div class="conversion-options">
+                    <select id="formatSelect" class="format-select">
+                        <option value="" disabled selected>Convert to...</option>
+                        <option value="jpeg">JPEG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WebP</option>
+                        <option value="bmp">BMP</option>
+                    </select>
+                    <button id="convertBtn" class="convert-btn" disabled>Convert</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
